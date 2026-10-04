@@ -1,0 +1,6 @@
+{
+  "name": "Dev & Copy Toolkit",
+  "description": "Suite de utilidades web profesional para desarrolladores y redactores. Limpiador de texto, contador de palabras y formateador JSON en una sola herramienta rápida y privada.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

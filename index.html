@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Dev & Copy Toolkit — Herramientas Rápidas</title>
+  <meta name="google-site-verification" content="WdxkeNpbfqzIqDCq8wwG5kQPc61jOdKCNO1l7pZgzCM" />
+  <meta name="description" content="Suite de utilidades web profesionales para desarrolladores y redactores. 100% privacidad local.">
+  
+  <!-- Fuente Inter (Moderna y limpia) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Script Antidestello Modo Oscuro -->
+  <script>
+    (function () {
+      try {
+        if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
+          },
+          colors: {
+            primary: { 50: '#eef2ff', 100: '#e0e7ff', 500: '#6366f1', 600: '#4f46e5', 900: '#312e81' }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* Detalles de UI pulidos */
+    body { -webkit-font-smoothing: antialiased; }
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(161, 161, 170, 0.4); border-radius: 99px; }
+    .dark ::-webkit-scrollbar-thumb { background: rgba(113, 113, 122, 0.4); }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(161, 161, 170, 0.6); }
+    
+    /* Animación de entrada suave para pestañas */
+    .tab-panel { animation: fadeIn 0.3s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+
+<body class="h-full bg-zinc-50 text-zinc-800 dark:bg-zinc-950 dark:text-zinc-200 flex flex-col selection:bg-primary-500/20 selection:text-primary-700 dark:selection:text-primary-200 transition-colors duration-200">
+
+  <!-- ==================== HEADER ==================== -->
+  <header class="sticky top-0 z-40 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Logo y Título -->
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-lg bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 flex items-center justify-center shadow-sm">
+          <i data-lucide="layers" class="w-5 h-5"></i>
+        </div>
+        <div class="flex flex-col">
+          <h1 class="text-sm font-bold tracking-tight text-zinc-900 dark:text-white leading-tight">Dev & Copy Toolkit</h1>
+          <span class="text-[11px] text-zinc-500 font-medium">Procesamiento 100% Local</span>
+        </div>
+      </div>
+
+      <!-- Acciones (Ko-fi & Tema) -->
+      <div class="flex items-center gap-3">
+        <a href="https://ko-fi.com/aldahirx" target="_blank" rel="noopener noreferrer" class="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-xs font-semibold text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-700 transition-all shadow-sm">
+          <i data-lucide="coffee" class="w-3.5 h-3.5 text-zinc-400"></i>
+          Apoyar
+        </a>
+        <div class="w-px h-5 bg-zinc-200 dark:bg-zinc-700 hidden sm:block"></div>
+        <button id="theme-toggle" class="p-2 rounded-lg text-zinc-500 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800 transition-colors">
+          <i id="icon-sun" data-lucide="sun" class="w-4.5 h-4.5 hidden"></i>
+          <i id="icon-moon" data-lucide="moon" class="w-4.5 h-4.5 hidden"></i>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ==================== MAIN ==================== -->
+  <main class="flex-1 w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col gap-6">
+
+    <!-- Navegación por Pestañas (Estilo Pills) -->
+    <nav class="flex overflow-x-auto pb-2 scrollbar-none gap-2 bg-zinc-200/50 dark:bg-zinc-800/50 p-1.5 rounded-xl border border-zinc-200 dark:border-zinc-800 self-start">
+      <button class="nav-tab active-tab flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all" data-tab="cleaner">
+        <i data-lucide="sparkles" class="w-4 h-4"></i> Limpiador
+      </button>
+      <button class="nav-tab flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all" data-tab="counter">
+        <i data-lucide="bar-chart-2" class="w-4 h-4"></i> Analizador
+      </button>
+      <button class="nav-tab flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all" data-tab="json">
+        <i data-lucide="code" class="w-4 h-4"></i> JSON
+      </button>
+      <button class="nav-tab flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all" data-tab="cases">
+        <i data-lucide="type" class="w-4 h-4"></i> Variables
+      </button>
+    </nav>
+
+    <!-- ==================== PESTAÑA: LIMPIADOR ==================== -->
+    <section id="panel-cleaner" class="tab-panel flex flex-col gap-4">
+      <div class="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm overflow-hidden">
+        
+        <!-- Header del Panel -->
+        <div class="px-6 py-4 border-b border-zinc-100 dark:border-zinc-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <h2 class="text-base font-semibold text-zinc-900 dark:text-white">Normalización de Texto</h2>
+            <p class="text-xs text-zinc-500 mt-1">Limpia saltos de línea, espacios dobles y formatos heredados.</p>
+          </div>
+          <div class="flex gap-2">
+            <button id="cleaner-btn-paste" class="px-3 py-1.5 bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 rounded-lg text-xs font-medium hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors">Pegar del portapapeles</button>
+          </div>
+        </div>
+
+        <!-- Barra de Herramientas -->
+        <div class="px-6 py-3 bg-zinc-50/50 dark:bg-zinc-900/50 border-b border-zinc-100 dark:border-zinc-800 flex flex-wrap gap-2">
+          <button id="cleaner-op-double-nl" class="px-3 py-1.5 rounded-md border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-xs text-zinc-700 dark:text-zinc-300 hover:border-primary-500 hover:text-primary-600 dark:hover:border-primary-400 dark:hover:text-primary-400 transition-all shadow-sm">Saltos a 1</button>
+          <button id="cleaner-op-spaces" class="px-3 py-1.5 rounded-md border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-xs text-zinc-700 dark:text-zinc-300 hover:border-primary-500 hover:text-primary-600 dark:hover:border-primary-400 transition-all shadow-sm">Espacios extra</button>
+          <button id="cleaner-op-single-line" class="px-3 py-1.5 rounded-md border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-xs text-zinc-700 dark:text-zinc-300 hover:border-primary-500 hover:text-primary-600 dark:hover:border-primary-400 transition-all shadow-sm">Renglón único</button>
+          <div class="w-px bg-zinc-200 dark:bg-zinc-700 mx-1"></div>
+          <button id="cleaner-case-upper" class="px-3 py-1.5 rounded-md text-xs font-medium text-zinc-600 hover:bg-zinc-200 dark:text-zinc-400 dark:hover:bg-zinc-700">MAYUS</button>
+          <button id="cleaner-case-lower" class="px-3 py-1.5 rounded-md text-xs font-medium text-zinc-600 hover:bg-zinc-200 dark:text-zinc-400 dark:hover:bg-zinc-700">minus</button>
+          <button id="cleaner-btn-undo" class="hidden ml-auto px-3 py-1.5 rounded-md text-xs text-zinc-500 hover:bg-zinc-200 dark:hover:bg-zinc-700"><i data-lucide="undo" class="w-3.5 h-3.5 inline mr-1"></i>Deshacer</button>
+        </div>
+
+        <!-- Área de Texto -->
+        <div class="relative">
+          <textarea id="cleaner-input" rows="10" class="w-full p-6 bg-transparent border-0 focus:ring-0 text-sm leading-relaxed resize-y placeholder:text-zinc-400 dark:placeholder:text-zinc-600" placeholder="Pega aquí el texto que deseas formatear..."></textarea>
+        </div>
+
+        <!-- Footer del Panel -->
+        <div class="px-6 py-3 bg-zinc-50 dark:bg-zinc-800/40 border-t border-zinc-100 dark:border-zinc-800 flex justify-between items-center text-xs text-zinc-500">
+          <div class="flex gap-4">
+            <span id="cleaner-stat-chars">0 caracteres</span>
+            <span id="cleaner-stat-lines">0 líneas</span>
+          </div>
+          <div class="flex gap-2">
+            <button id="cleaner-btn-clear" class="px-4 py-2 hover:text-zinc-900 dark:hover:text-white font-medium">Borrar todo</button>
+            <button id="cleaner-btn-copy" class="px-4 py-2 rounded-lg bg-zinc-900 text-white dark:bg-white dark:text-zinc-900 font-medium hover:bg-zinc-800 dark:hover:bg-zinc-100 shadow-sm transition-colors">Copiar Resultado</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== PESTAÑA: ANALIZADOR ==================== -->
+    <section id="panel-counter" class="tab-panel hidden flex-col gap-4">
+      
+      <!-- Grid de Estadísticas -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="bg-white dark:bg-zinc-900 p-5 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm flex flex-col gap-1">
+          <span class="text-xs font-semibold uppercase text-zinc-400 flex items-center gap-2"><i data-lucide="book-open" class="w-4 h-4 text-primary-500"></i> Palabras</span>
+          <span id="stat-words" class="text-3xl font-bold text-zinc-900 dark:text-white">0</span>
+        </div>
+        <div class="bg-white dark:bg-zinc-900 p-5 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm flex flex-col gap-1">
+          <span class="text-xs font-semibold uppercase text-zinc-400 flex items-center gap-2"><i data-lucide="type" class="w-4 h-4 text-primary-500"></i> Caracteres</span>
+          <span id="stat-chars" class="text-3xl font-bold text-zinc-900 dark:text-white">0</span>
+        </div>
+        <div class="bg-white dark:bg-zinc-900 p-5 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm flex flex-col gap-1">
+          <span class="text-xs font-semibold uppercase text-zinc-400 flex items-center gap-2"><i data-lucide="align-left" class="w-4 h-4 text-primary-500"></i> Párrafos</span>
+          <span id="stat-paras" class="text-3xl font-bold text-zinc-900 dark:text-white">0</span>
+        </div>
+        <div class="bg-white dark:bg-zinc-900 p-5 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm flex flex-col gap-1">
+          <span class="text-xs font-semibold uppercase text-zinc-400 flex items-center gap-2"><i data-lucide="clock" class="w-4 h-4 text-primary-500"></i> T. Lectura</span>
+          <span id="stat-time" class="text-3xl font-bold text-zinc-900 dark:text-white">0s</span>
+        </div>
+      </div>
+
+      <!-- Editor -->
+      <div class="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm overflow-hidden flex flex-col">
+        <textarea id="counter-input" rows="12" class="w-full p-6 bg-transparent border-0 focus:ring-0 text-sm leading-relaxed resize-y placeholder:text-zinc-400" placeholder="Escribe o pega tu texto aquí para analizarlo en tiempo real..."></textarea>
+        
+        <div class="px-6 py-3 bg-zinc-50 dark:bg-zinc-800/40 border-t border-zinc-100 dark:border-zinc-800 flex justify-between items-center">
+          <button id="counter-btn-clear" class="text-xs text-zinc-500 hover:text-zinc-900 dark:hover:text-white font-medium">Borrar</button>
+          
+          <!-- Límite SEO Básico integrado -->
+          <div class="flex items-center gap-3 text-xs">
+            <span class="text-zinc-500">Meta Title SEO (60 max):</span>
+            <div class="w-24 h-1.5 bg-zinc-200 dark:bg-zinc-700 rounded-full overflow-hidden">
+              <div id="bar-seo" class="h-full bg-primary-500 w-0 transition-all"></div>
+            </div>
+            <span id="val-seo" class="font-mono text-zinc-600 dark:text-zinc-400 w-8">0</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== PESTAÑA: JSON ==================== -->
+    <section id="panel-json" class="tab-panel hidden flex-col gap-4">
+      
+      <!-- Controles JSON -->
+      <div class="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-4 shadow-sm flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div class="flex gap-2 w-full sm:w-auto">
+          <button id="json-btn-format" class="flex-1 sm:flex-none px-4 py-2 rounded-lg bg-zinc-900 text-white dark:bg-white dark:text-zinc-900 text-xs font-semibold hover:opacity-90 transition-opacity">Formatear JSON</button>
+          <button id="json-btn-minify" class="flex-1 sm:flex-none px-4 py-2 rounded-lg border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 text-xs font-medium hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors">Minificar</button>
+        </div>
+        <div id="json-status" class="text-xs font-medium px-3 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-500">Esperando entrada...</div>
+      </div>
+
+      <!-- Área de Entrada / Salida -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm flex flex-col overflow-hidden">
+          <div class="px-4 py-2 border-b border-zinc-100 dark:border-zinc-800 text-[11px] font-semibold text-zinc-400 uppercase tracking-wider bg-zinc-50 dark:bg-zinc-800/40">Entrada sin formato</div>
+          <textarea id="json-input" rows="16" class="w-full p-4 bg-transparent border-0 focus:ring-0 text-sm font-mono resize-y" placeholder='{"clave": "pega tu json aquí"}'></textarea>
+        </div>
+        <div class="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm flex flex-col overflow-hidden">
+          <div class="px-4 py-2 border-b border-zinc-100 dark:border-zinc-800 text-[11px] font-semibold text-zinc-400 uppercase tracking-wider bg-zinc-50 dark:bg-zinc-800/40 flex justify-between items-center">
+            <span>Resultado</span>
+            <button id="json-btn-copy" class="text-primary-600 dark:text-primary-400 hover:underline">Copiar</button>
+          </div>
+          <textarea id="json-output" rows="16" readonly class="w-full p-4 bg-zinc-50/50 dark:bg-zinc-900/50 border-0 focus:ring-0 text-sm font-mono text-zinc-600 dark:text-zinc-400 resize-y"></textarea>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== PESTAÑA: VARIABLES ==================== -->
+    <section id="panel-cases" class="tab-panel hidden flex-col gap-6">
+      
+      <!-- Buscador principal -->
+      <div class="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm p-6 relative">
+        <label class="text-xs font-semibold text-zinc-500 block mb-2">Ingresa texto o variable</label>
+        <div class="relative">
+          <i data-lucide="text-cursor-input" class="w-5 h-5 absolute left-3 top-3 text-zinc-400"></i>
+          <input type="text" id="cases-input" class="w-full pl-10 pr-4 py-2.5 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800/50 text-sm focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-all" placeholder="Ej: cuenta de usuario activa">
+        </div>
+      </div>
+
+      <!-- Resultados Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        
+        <div class="group bg-white dark:bg-zinc-900 p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm hover:border-primary-300 dark:hover:border-primary-700 transition-all flex justify-between items-center">
+          <div class="min-w-0">
+            <span class="text-[10px] font-semibold uppercase tracking-wider text-zinc-400 block mb-1">camelCase</span>
+            <div id="out-camel" class="font-mono text-sm text-zinc-800 dark:text-zinc-200 truncate">—</div>
+          </div>
+          <button data-copy-target="out-camel" class="btn-copy-var p-2 rounded-lg text-zinc-400 hover:text-primary-600 hover:bg-primary-50 dark:hover:bg-primary-900/30 opacity-0 group-hover:opacity-100 transition-all"><i data-lucide="copy" class="w-4 h-4"></i></button>
+        </div>
+        
+        <div class="group bg-white dark:bg-zinc-900 p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm hover:border-primary-300 dark:hover:border-primary-700 transition-all flex justify-between items-center">
+          <div class="min-w-0">
+            <span class="text-[10px] font-semibold uppercase tracking-wider text-zinc-400 block mb-1">snake_case</span>
+            <div id="out-snake" class="font-mono text-sm text-zinc-800 dark:text-zinc-200 truncate">—</div>
+          </div>
+          <button data-copy-target="out-snake" class="btn-copy-var p-2 rounded-lg text-zinc-400 hover:text-primary-600 hover:bg-primary-50 dark:hover:bg-primary-900/30 opacity-0 group-hover:opacity-100 transition-all"><i data-lucide="copy" class="w-4 h-4"></i></button>
+        </div>
+
+        <div class="group bg-white dark:bg-zinc-900 p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm hover:border-primary-300 dark:hover:border-primary-700 transition-all flex justify-between items-center">
+          <div class="min-w-0">
+            <span class="text-[10px] font-semibold uppercase tracking-wider text-zinc-400 block mb-1">kebab-case</span>
+            <div id="out-kebab" class="font-mono text-sm text-zinc-800 dark:text-zinc-200 truncate">—</div>
+          </div>
+          <button data-copy-target="out-kebab" class="btn-copy-var p-2 rounded-lg text-zinc-400 hover:text-primary-600 hover:bg-primary-50 dark:hover:bg-primary-900/30 opacity-0 group-hover:opacity-100 transition-all"><i data-lucide="copy" class="w-4 h-4"></i></button>
+        </div>
+
+        <div class="group bg-white dark:bg-zinc-900 p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm hover:border-primary-300 dark:hover:border-primary-700 transition-all flex justify-between items-center">
+          <div class="min-w-0">
+            <span class="text-[10px] font-semibold uppercase tracking-wider text-zinc-400 block mb-1">CONSTANT_CASE</span>
+            <div id="out-const" class="font-mono text-sm text-zinc-800 dark:text-zinc-200 truncate">—</div>
+          </div>
+          <button data-copy-target="out-const" class="btn-copy-var p-2 rounded-lg text-zinc-400 hover:text-primary-600 hover:bg-primary-50 dark:hover:bg-primary-900/30 opacity-0 group-hover:opacity-100 transition-all"><i data-lucide="copy" class="w-4 h-4"></i></button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== BANNER DE APOYO (Footer Elegante) ==================== -->
+    <div class="mt-8 bg-zinc-900 dark:bg-zinc-800 rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-md border border-zinc-800 dark:border-zinc-700">
+      <div class="text-center sm:text-left">
+        <h3 class="text-white text-base font-semibold">¿Te resultó útil esta herramienta?</h3>
+        <p class="text-zinc-400 text-sm mt-1">Este proyecto se mantiene sin anuncios intrusivos y respeta tu privacidad.</p>
+      </div>
+      <a href="https://ko-fi.com/aldahirx" target="_blank" rel="noopener noreferrer" class="shrink-0 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white text-zinc-900 hover:bg-zinc-100 font-semibold text-sm transition-colors shadow-sm">
+        <i data-lucide="coffee" class="w-4 h-4"></i> Apoyar el proyecto
+      </a>
+    </div>
+
+  </main>
+
+  <!-- Sistema de Notificaciones (Toasts) -->
+  <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- Lógica JavaScript -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      
+      // 1. Inicializar Iconos
+      lucide.createIcons();
+
+      // 2. Sistema de Notificaciones Elegante
+      function showToast(message) {
+        const container = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        toast.className = 'flex items-center gap-3 px-4 py-3 bg-zinc-900 text-white dark:bg-white dark:text-zinc-900 text-sm font-medium rounded-xl shadow-lg transform translate-y-4 opacity-0 transition-all duration-300 ease-out border border-zinc-800 dark:border-zinc-200';
+        toast.innerHTML = `<i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400 dark:text-emerald-500"></i> ${message}`;
+        container.appendChild(toast);
+        lucide.createIcons({ root: toast });
+        
+        requestAnimationFrame(() => {
+          toast.classList.remove('translate-y-4', 'opacity-0');
+        });
+
+        setTimeout(() => {
+          toast.classList.add('opacity-0', 'translate-y-2');
+          setTimeout(() => toast.remove(), 300);
+        }, 2500);
+      }
+
+      // 3. Modo Oscuro
+      const themeToggle = document.getElementById('theme-toggle');
+      function updateThemeIcons() {
+        const isDark = document.documentElement.classList.contains('dark');
+        document.getElementById('icon-sun').classList.toggle('hidden', !isDark);
+        document.getElementById('icon-moon').classList.toggle('hidden', isDark);
+      }
+      updateThemeIcons();
+
+      themeToggle.addEventListener('click', () => {
+        document.documentElement.classList.toggle('dark');
+        localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+        updateThemeIcons();
+      });
+
+      // 4. Navegación por Pestañas (Estilo Pills)
+      const tabs = document.querySelectorAll('.nav-tab');
+      const panels = document.querySelectorAll('.tab-panel');
+
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          const target = tab.getAttribute('data-tab');
+          
+          tabs.forEach(t => {
+            if (t === tab) {
+              t.classList.add('bg-white', 'dark:bg-zinc-700', 'text-zinc-900', 'dark:text-white', 'shadow-sm', 'border', 'border-zinc-200/50', 'dark:border-zinc-600');
+              t.classList.remove('text-zinc-600', 'dark:text-zinc-400');
+            } else {
+              t.classList.remove('bg-white', 'dark:bg-zinc-700', 'text-zinc-900', 'dark:text-white', 'shadow-sm', 'border', 'border-zinc-200/50', 'dark:border-zinc-600');
+              t.classList.add('text-zinc-600', 'dark:text-zinc-400');
+            }
+          });
+
+          panels.forEach(p => p.classList.toggle('hidden', p.id !== 'panel-' + target));
+        });
+      });
+      // Click inicial para activar estilos
+      tabs[0].click();
+
+      // 5. Lógica del Limpiador
+      const cInput = document.getElementById('cleaner-input');
+      let cHistory = [];
+      
+      function updateCleanerStats() {
+        document.getElementById('cleaner-stat-chars').textContent = cInput.value.length + ' caracteres';
+        document.getElementById('cleaner-stat-lines').textContent = (cInput.value ? cInput.value.split(/\n/).length : 0) + ' líneas';
+      }
+
+      function applyFormat(fn) {
+        if(!cInput.value) return;
+        cHistory.push(cInput.value);
+        document.getElementById('cleaner-btn-undo').classList.remove('hidden');
+        cInput.value = fn(cInput.value);
+        updateCleanerStats();
+      }
+
+      document.getElementById('cleaner-op-double-nl').addEventListener('click', () => applyFormat(t => t.replace(/(\r?\n){2,}/g, '\n').trim()));
+      document.getElementById('cleaner-op-spaces').addEventListener('click', () => applyFormat(t => t.split(/\n/).map(l => l.replace(/[ \t]{2,}/g, ' ').trim()).join('\n')));
+      document.getElementById('cleaner-op-single-line').addEventListener('click', () => applyFormat(t => t.replace(/\r?\n+/g, ' ').replace(/[ \t]{2,}/g, ' ').trim()));
+      document.getElementById('cleaner-case-upper').addEventListener('click', () => applyFormat(t => t.toUpperCase()));
+      document.getElementById('cleaner-case-lower').addEventListener('click', () => applyFormat(t => t.toLowerCase()));
+      
+      document.getElementById('cleaner-btn-undo').addEventListener('click', (e) => {
+        if(cHistory.length) {
+          cInput.value = cHistory.pop();
+          updateCleanerStats();
+          if(!cHistory.length) e.target.classList.add('hidden');
+        }
+      });
+      
+      document.getElementById('cleaner-btn-clear').addEventListener('click', () => { cInput.value = ''; updateCleanerStats(); cHistory = []; document.getElementById('cleaner-btn-undo').classList.add('hidden'); });
+      document.getElementById('cleaner-btn-paste').addEventListener('click', async () => { try { cInput.value = await navigator.clipboard.readText(); updateCleanerStats(); } catch(e){} });
+      document.getElementById('cleaner-btn-copy').addEventListener('click', () => { if(cInput.value) navigator.clipboard.writeText(cInput.value).then(() => showToast('Texto copiado al portapapeles')); });
+      cInput.addEventListener('input', updateCleanerStats);
+
+
+      // 6. Lógica del Analizador
+      const countInput = document.getElementById('counter-input');
+      countInput.addEventListener('input', () => {
+        const text = countInput.value;
+        const chars = text.length;
+        const words = (text.trim().match(/[\p{L}\p{N}]+/gu) || []).length;
+        
+        document.getElementById('stat-chars').textContent = chars;
+        document.getElementById('stat-words').textContent = words;
+        document.getElementById('stat-paras').textContent = text.split(/\n+/).filter(p => p.trim()).length;
+        document.getElementById('stat-time').textContent = Math.ceil(words / 3.33) + 's';
+        
+        const seoBar = document.getElementById('bar-seo');
+        document.getElementById('val-seo').textContent = chars;
+        seoBar.style.width = Math.min(100, (chars/60)*100) + '%';
+        seoBar.className = `h-full transition-all ${chars > 60 ? 'bg-rose-500' : 'bg-primary-500'}`;
+      });
+      document.getElementById('counter-btn-clear').addEventListener('click', () => { countInput.value = ''; countInput.dispatchEvent(new Event('input')); });
+
+      // 7. Lógica JSON
+      const jIn = document.getElementById('json-input');
+      const jOut = document.getElementById('json-output');
+      const jStatus = document.getElementById('json-status');
+      
+      function processJson(spaces) {
+        if(!jIn.value.trim()) return;
+        try {
+          const parsed = JSON.parse(jIn.value);
+          jOut.value = spaces === 0 ? JSON.stringify(parsed) : JSON.stringify(parsed, null, spaces);
+          jStatus.innerHTML = `<span class="text-emerald-600 dark:text-emerald-400 flex items-center gap-1"><i data-lucide="check-circle" class="w-3.5 h-3.5"></i> Válido</span>`;
+          lucide.createIcons({root: jStatus});
+        } catch(e) {
+          jStatus.innerHTML = `<span class="text-rose-600 dark:text-rose-400 flex items-center gap-1"><i data-lucide="alert-triangle" class="w-3.5 h-3.5"></i> Error de sintaxis</span>`;
+          lucide.createIcons({root: jStatus});
+        }
+      }
+      document.getElementById('json-btn-format').addEventListener('click', () => processJson(2));
+      document.getElementById('json-btn-minify').addEventListener('click', () => processJson(0));
+      document.getElementById('json-btn-copy').addEventListener('click', () => { if(jOut.value) navigator.clipboard.writeText(jOut.value).then(() => showToast('JSON copiado')); });
+
+      // 8. Lógica de Variables
+      const varInput = document.getElementById('cases-input');
+      varInput.addEventListener('input', () => {
+        const text = varInput.value;
+        const words = text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/([a-z])([A-Z])/g, '$1 $2').replace(/[^a-zA-Z0-9]+/g, ' ').trim().toLowerCase().split(/\s+/).filter(Boolean);
+        
+        document.getElementById('out-camel').textContent = words.length ? words.map((w, i) => i === 0 ? w : w[0].toUpperCase() + w.slice(1)).join('') : '—';
+        document.getElementById('out-snake').textContent = words.length ? words.join('_') : '—';
+        document.getElementById('out-kebab').textContent = words.length ? words.join('-') : '—';
+        document.getElementById('out-const').textContent = words.length ? words.join('_').toUpperCase() : '—';
+      });
+      
+      document.querySelectorAll('.btn-copy-var').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const text = document.getElementById(this.getAttribute('data-copy-target')).textContent;
+          if(text && text !== '—') navigator.clipboard.writeText(text).then(() => showToast('Variable copiada'));
+        });
+      });
+
+    });
+  </script>
+</body>
+</html>
