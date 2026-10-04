@@ -3,7 +3,7 @@
 > Suite web profesional y privada con utilidades esenciales para desarrolladores, editores de contenido y redactores.
 
 [![Licencia](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Status](https://img.shields.io/badge/Status-Online-success.svg)](https://convertidormultiple.netlify.app)
+[![Status](https://img.shields.io/badge/Status-Online-success.svg)](https://devutilidades.netlify.app)
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-Vanilla%20JS-yellow.svg)]()
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-CSS-38B2AC.svg)]()
 
@@ -23,7 +23,7 @@
 ## 🚀 Probar en Vivo
 
 Puedes utilizar la suite en producción ingresando a:
-👉 **[convertidormultiple.netlify.app](https://convertidormultiple.netlify.app)**
+👉 **[devutilidades.netlify.app](https://devutilidades.netlify.app)**
 
 ---
 
@@ -33,7 +33,7 @@ Dado que la aplicación está construida con tecnologías estándar (*Vanilla JS
 
 1. Clona este repositorio:
    ```bash
-   git clone https://github.com/AldahirX/dev-copy-toolkit.git
+   git clone https://github.com/AldahirX/devutilidades.git
    ```
 2. Abre el proyecto o sírvelo con cualquier servidor web estático.
 
